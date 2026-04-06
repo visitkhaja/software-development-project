@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Crescent University - Hostel Portal</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI;
+}
+
+body{
+    background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+    url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1") center/cover no-repeat;
+    min-height:100vh;
+    color:#333;
+}
+
+header{
+    background:#002147;
+    color:white;
+    padding:15px 40px;
+    display:flex;
+    justify-content:space-between;
+}
+
+nav{
+    background:#014a94;
+    padding:12px 40px;
+    color:white;
+    display:flex;
+    justify-content:space-between;
+}
+
+nav span{
+    cursor:pointer;
+    margin-right:20px;
+}
+
+.section{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+.login-section{
+    background:white;
+    width:350px;
+    margin:40px auto;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.login-section input,select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:10px 15px;
+    background:#014a94;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#002147;
+}
+
+.dashboard{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin:30px;
+}
+
+.card{
+    background:white;
+    width:220px;
+    padding:20px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 8px 25px rgba(0,0,0,0.3);
+}
+
+.form-section{
+    background:white;
+    margin:20px 40px;
+    padding:20px;
+    border-radius:15px;
+}
+
+.facilities{
+    background:white;
+    margin:30px;
+    padding:30px;
+    border-radius:15px;
+}
+
+.facilities ul{
+    margin-top:20px;
+    line-height:30px;
+}
+
+.hidden{
+    display:none;
+}
+
+footer{
+    background:#002147;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h3>Crescent Institute of Science & Technology</h3>
+    <div id="userRole">Not Logged In</div>
+</header>
+
+<nav>
+    <div>
+        <span onclick="showHome()">Home</span>
+        <span onclick="showAbout()">About Hostel</span>
+    </div>
+    <span onclick="logout()">Logout</span>
+</nav>
+
+<!-- LOGIN SECTION -->
+<div class="login-section section active" id="loginSection">
+    <h2>Login</h2>
+
+    <select id="role">
+        <option value="">Select Role</option>
+        <option value="Staff">Staff</option>
+        <option value="Student">Student</option>
+    </select>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+</div>
+
+<!-- MAIN PORTAL -->
+<div id="mainPortal" class="section">
+
+<div class="dashboard">
+    <div class="card">
+        <h3>Total Students</h3>
+        <p id="totalStudents">0</p>
+    </div>
+    <div class="card">
+        <h3>Available Beds</h3>
+        <p id="availableBeds">600</p>
+    </div>
+    <div class="card">
+        <h3>Total Revenue</h3>
+        <p id="totalRevenue">₹0</p>
+    </div>
+</div>
+
+<div class="form-section">
+    <h2>Online Room Booking (100 Seats Only)</h2>
+
+    <input type="text" id="name" placeholder="Student Name">
+    <input type="text" id="dept" placeholder="Department">
+
+    <select id="gender">
+        <option value="">Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+    </select>
+
+    <select id="mess">
+        <option value="">Select Menu Type</option>
+        <option value="Veg">Veg</option>
+        <option value="Non-Veg">Non-Veg</option>
+    </select>
+
+    <p><strong>Total Amount: <span id="totalAmount">₹0</span></strong></p>
+
+    <button id="allocateBtn">Book Room</button>
+
+    <table border="1" width="100%" style="margin-top:20px">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Gender</th>
+                <th>Menu</th>
+                <th>Room</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody id="studentList"></tbody>
+    </table>
+</div>
+
+</div>
+
+<!-- ABOUT HOSTEL PAGE -->
+<div class="facilities section" id="aboutSection">
+    <h2>About Crescent Hostel</h2>
+
+    <p style="margin-top:15px;">
+        Crescent Hostel provides safe, secure and comfortable accommodation
+        for students with modern infrastructure and excellent facilities.
+    </p>
+
+    <h3 style="margin-top:20px;">Hostel Facilities:</h3>
+
+    <ul>
+        <li>🏋️ Gym Facility</li>
+        <li>🏸 Badminton Court</li>
+        <li>🏏 Cricket Ground</li>
+        <li>⚽ Football Ground</li>
+        <li>📚 Study Room (24/7)</li>
+        <li>🍽️ Veg & Non-Veg Mess</li>
+        <li>📶 Free WiFi</li>
+        <li>🛡️ 24/7 Security</li>
+    </ul>
+</div>
+
+<footer>
+© 2026 Crescent University Hostel Portal
+</footer>
+
+<script>
+
+/* LOGIN DETAILS */
+const STAFF_USERNAME = "staff";
+const STAFF_PASSWORD = "1234";
+const STUDENT_USERNAME = "student";
+const STUDENT_PASSWORD = "1234";
+
+let totalStudents = 0;
+let maxStudents = 600;
+let maxOnlineBooking = 100;
+let totalRevenue = 0;
+
+let rooms = {};
+let maxCapacity = 6;
+
+const ROOM_FEE = 25000;
+const VEG_FEE = 20000;
+const NONVEG_FEE = 25000;
+
+for(let i=101;i<=200;i++){
+    rooms[i] = [];
+}
+
+function login(){
+    let role = document.getElementById("role").value;
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+
+    if(role === "" || username === "" || password === ""){
+        alert("Fill all fields");
+        return;
+    }
+
+    if((role === "Staff" && username === STAFF_USERNAME && password === STAFF_PASSWORD) ||
+       (role === "Student" && username === STUDENT_USERNAME && password === STUDENT_PASSWORD)){
+        
+        document.getElementById("loginSection").classList.remove("active");
+        document.getElementById("loginSection").style.display="none";
+        document.getElementById("mainPortal").classList.add("active");
+        document.getElementById("userRole").textContent = role + " Logged In";
+    }
+    else{
+        alert("Invalid Credentials");
+    }
+}
+
+function logout(){
+    location.reload();
+}
+
+function showAbout(){
+    document.getElementById("mainPortal").style.display="none";
+    document.getElementById("aboutSection").style.display="block";
+}
+
+function showHome(){
+    document.getElementById("aboutSection").style.display="none";
+    document.getElementById("mainPortal").style.display="block";
+}
+
+function updateDashboard(){
+    document.getElementById("totalStudents").textContent = totalStudents;
+    document.getElementById("availableBeds").textContent = maxStudents - totalStudents;
+    document.getElementById("totalRevenue").textContent = "₹" + totalRevenue;
+}
+
+document.getElementById("mess").addEventListener("change", function(){
+    let messFee = (this.value === "Veg") ? VEG_FEE :
+                  (this.value === "Non-Veg") ? NONVEG_FEE : 0;
+    document.getElementById("totalAmount").textContent = "₹" + (ROOM_FEE + messFee);
+});
+
+document.getElementById("allocateBtn").addEventListener("click", function(){
+
+    if(totalStudents >= maxOnlineBooking){
+        alert("100 Online Booking Limit Reached!");
+        return;
+    }
+
+    let name = document.getElementById("name").value;
+    let dept = document.getElementById("dept").value;
+    let gender = document.getElementById("gender").value;
+    let mess = document.getElementById("mess").value;
+
+    if(name === "" || dept === "" || gender === "" || mess === ""){
+        alert("Fill all fields");
+        return;
+    }
+
+    let allocatedRoom = null;
+
+    for(let room in rooms){
+        if(rooms[room].length < maxCapacity){
+            rooms[room].push(name);
+            allocatedRoom = room;
+            break;
+        }
+    }
+
+    let messFee = (mess === "Veg") ? VEG_FEE : NONVEG_FEE;
+    let totalAmount = ROOM_FEE + messFee;
+
+    totalStudents++;
+    totalRevenue += totalAmount;
+    updateDashboard();
+
+    let row = `<tr>
+        <td>${name}</td>
+        <td>${dept}</td>
+        <td>${gender}</td>
+        <td>${mess}</td>
+        <td>${allocatedRoom}</td>
+        <td>₹${totalAmount}</td>
+    </tr>`;
+
+    document.getElementById("studentList").innerHTML += row;
+});
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
