@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hostel Room Allocation System</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+}
+
+/* Login */
+#loginPage, #dashboard {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box, .dashboard-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background: #4facfe;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #00c6ff;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+/* Room grid */
+.rooms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.room {
+    padding: 15px;
+    background: #eee;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.room.occupied {
+    background: #ff6b6b;
+    color: white;
+    cursor: not-allowed;
+}
+
+.room.selected {
+    background: #4caf50;
+    color: white;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" style="display:flex;">
+    <div class="login-box">
+        <h2>Hostel Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <div class="error" id="error"></div>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+    <div class="dashboard-box">
+        <h2>Room Allocation</h2>
+        <p id="welcome"></p>
+
+        <select id="block">
+            <option value="">Select Block</option>
+            <option>A Block</option>
+            <option>B Block</option>
+            <option>C Block</option>
+        </select>
+
+        <div class="rooms" id="roomContainer"></div>
+
+        <button onclick="allocateRoom()">Allocate Room</button>
+        <button onclick="logout()" style="margin-top:10px;background:red;">Logout</button>
+
+        <p id="status"></p>
+    </div>
+</div>
+
+<script>
+const validUser = "student";
+const validPass = "1234";
+
+let selectedRoom = null;
+
+// Generate rooms
+function generateRooms() {
+    const container = document.getElementById("roomContainer");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= 9; i++) {
+        const div = document.createElement("div");
+        div.classList.add("room");
+        div.innerText = "Room " + i;
+
+        // Randomly mark some as occupied
+        if (Math.random() < 0.3) {
+            div.classList.add("occupied");
+        } else {
+            div.onclick = () => selectRoom(div);
+        }
+
+        container.appendChild(div);
+    }
+}
+
+// Select room
+function selectRoom(room) {
+    document.querySelectorAll(".room").forEach(r => r.classList.remove("selected"));
+    room.classList.add("selected");
+    selectedRoom = room.innerText;
+}
+
+// Login
+function login() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+    const error = document.getElementById("error");
+
+    if (user === validUser && pass === validPass) {
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("dashboard").style.display = "flex";
+        document.getElementById("welcome").innerText = "Welcome, " + user;
+        generateRooms();
+    } else {
+        error.innerText = "Invalid Login!";
+    }
+}
+
+// Allocate
+function allocateRoom() {
+    const block = document.getElementById("block").value;
+    const status = document.getElementById("status");
+
+    if (!block || !selectedRoom) {
+        status.style.color = "red";
+        status.innerText = "Select block and room!";
+        return;
+    }
+
+    status.style.color = "green";
+    status.innerText = `Room Allocated: ${selectedRoom} in ${block}`;
+}
+
+// Logout
+function logout() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("loginPage").style.display = "flex";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+}
+</script>
+
+</body>
+</html>
